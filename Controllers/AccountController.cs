@@ -8,8 +8,10 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using WebAPI.APIErrors;
 using WebAPI.Data.IRepository;
 using WebAPI.DTOs;
+using WebAPI.Extensions;
 using WebAPI.Models;
 
 namespace WebAPI.Controllers
@@ -26,10 +28,14 @@ namespace WebAPI.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserReqDTO userReqDTO)
         {
+            ApiError apiError = new ApiError();
             var user = await _unitOfWork.UserRepository.Authenticate(userReqDTO.Username, userReqDTO.Password);
             if (user == null)
             {
-                return Unauthorized();
+                apiError.ErrorCode = BadRequest().StatusCode;
+                apiError.ErrorMessage = "Invalid Username and Password";
+                apiError.ErrorDetails = "Please check username and password you entered is incorrect";
+                return Unauthorized(apiError.ToString());
             }
 
             var resDTO = new UserResDTO();
@@ -41,13 +47,25 @@ namespace WebAPI.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserReqDTO userReqDTO)
         {
+            ApiError aPIError = new ApiError();
+            if (userReqDTO.Username.IsEmpty() || userReqDTO.Password.IsEmpty())
+            {
+                aPIError.ErrorCode = BadRequest().StatusCode;
+                aPIError.ErrorMessage = "Username and password are required";
+                aPIError.ErrorDetails = "Please enter username and password because these fields are mandatory";
+                return BadRequest(aPIError.ToString());
+            }
+           
             var user = await _unitOfWork.UserRepository.UserAlreadyExists(userReqDTO.Username);
             if (user)
             {
-                return BadRequest("User already exists please try something else");
+                aPIError.ErrorCode = BadRequest().StatusCode;
+                aPIError.ErrorMessage = "User already exists please try something else";
+                aPIError.ErrorDetails = "Please check username you entered is already there please change another one";
+                return BadRequest(aPIError.ToString());
             }
 
-            _unitOfWork.UserRepository.Register(userReqDTO.Username, userReqDTO.Password);
+            _unitOfWork.UserRepository.Register(userReqDTO);
             _unitOfWork.SaveAsync();
             return Ok();
         }

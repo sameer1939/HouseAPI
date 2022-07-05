@@ -9,6 +9,8 @@ namespace WebAPI.Models
     {
         public int Id { get; set; }
         public string Username { get; set; }
+        public string Email { get; set; }
+        public string Mobile { get; set; }
         public byte[] Password { get; set; }
         public byte[] SaltKey { get; set; }
     }

@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using WebAPI.Data.IRepository;
+using WebAPI.DTOs;
 using WebAPI.Models;
 
 namespace WebAPI.Data.Repository
@@ -50,20 +51,22 @@ namespace WebAPI.Data.Repository
             }
         }
 
-        public void Register(string username, string password)
+        public void Register(UserReqDTO userReqDTO)
         {
             byte[] passwordHash, SaltKey;
 
             using (var hmca = new HMACSHA512())
             {
-                passwordHash = hmca.ComputeHash(Encoding.UTF8.GetBytes(password));
+                passwordHash = hmca.ComputeHash(Encoding.UTF8.GetBytes(userReqDTO.Password));
                 SaltKey = hmca.Key;
             }
 
             User user = new User();
             user.Password = passwordHash;
-            user.Username = username;
+            user.Username = userReqDTO.Username;
             user.SaltKey = SaltKey;
+            user.Email = userReqDTO.Email;
+            user.Mobile = userReqDTO.Mobile;
             _applicationDbContext.Users.Add(user);
         }
 
