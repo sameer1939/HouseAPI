@@ -7,10 +7,17 @@
   <ItemGroup>
     <Compile Remove="Migrations\20220629113424_changesCities.cs" />
     <Compile Remove="Migrations\20220629113424_changesCities.Designer.cs" />
+    <Compile Remove="Migrations\20220707062351_SeedingDemoData.cs" />
+    <Compile Remove="Migrations\20220707062351_SeedingDemoData.Designer.cs" />
+    <Compile Remove="Migrations\20220707073711_UpdateDatatype.cs" />
+    <Compile Remove="Migrations\20220707073711_UpdateDatatype.Designer.cs" />
+    <Compile Remove="Migrations\20220707073925_DataSeedingDemo.cs" />
+    <Compile Remove="Migrations\20220707073925_DataSeedingDemo.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
+    <PackageReference Include="CloudinaryDotNet" Version="1.15.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.8" />

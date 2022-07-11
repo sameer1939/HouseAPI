@@ -19,7 +19,9 @@ using WebAPI.Data.IRepository;
 using WebAPI.Data.Repository;
 using WebAPI.Extensions;
 using WebAPI.Helpers;
+using WebAPI.IServices;
 using WebAPI.Middlewares;
+using WebAPI.Services;
 
 namespace WebAPI
 {
@@ -40,6 +42,7 @@ namespace WebAPI
             services.AddCors();
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IPhotoUploadService, PhotoUploadService>();
 
             var secretKey = Configuration.GetSection("AppSettings:Key").Value;
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));

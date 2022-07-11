@@ -24,6 +24,8 @@ namespace WebAPI.Controllers
             _unitOfWork = unitOfWork;
             this._mapper = mapper;
         }
+        [HttpGet("citylist")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetCity()
         {
             IEnumerable<City> city = await _unitOfWork.CityRepository.GetCitiesAsync();

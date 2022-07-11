@@ -9,6 +9,9 @@ namespace WebAPI.Data.IRepository
     {
         public ICityRepository CityRepository { get; }
         public IUserRepository UserRepository { get; }
+        public IPropertyRepository PropertyRepository { get; }
+        public IFurnitureTypeRepository FurnitureTypeRepository { get; }
+        public IPropertyTypeRepository PropertyTypeRepository { get; }
 
         void SaveAsync();
     }
